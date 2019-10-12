@@ -22,6 +22,7 @@ namespace CustomEffectLoader
             {
                 _harmony = HarmonyInstance.Create(HarmonyId);
                 _harmony.PatchAll(GetType().Assembly);
+                WorkshopAssetUploadPanelPatch.Apply(_harmony);
             }
         }
 
@@ -31,6 +32,7 @@ namespace CustomEffectLoader
 
             if(_harmony != null)
             {
+                WorkshopAssetUploadPanelPatch.Revert(_harmony);
                 _harmony.UnpatchAll(HarmonyId);
                 _harmony = null;
             }

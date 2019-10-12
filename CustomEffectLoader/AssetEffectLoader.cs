@@ -39,6 +39,8 @@ namespace CustomEffectLoader
        
     public class AssetEffectLoader : ModSingleton<AssetEffectLoader>
     {
+        public const string EffectsDefinitionFileName = "EffectsDefinition.xml";
+
         private GameObject _prefabCollection;
 
         private readonly List<EffectInfo> _effects = new List<EffectInfo>();
@@ -116,7 +118,7 @@ namespace CustomEffectLoader
                     var crpPath = package.packagePath;
                     if (crpPath == null) continue;
 
-                    var effectsDefPath = Path.Combine(Path.GetDirectoryName(crpPath) ?? "", "EffectsDefinition.xml");
+                    var effectsDefPath = Path.Combine(Path.GetDirectoryName(crpPath) ?? "", EffectsDefinitionFileName);
 
                     // skip files which were already parsed
                     if (checkedPaths.Contains(effectsDefPath)) continue;

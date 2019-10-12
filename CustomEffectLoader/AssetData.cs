@@ -269,6 +269,7 @@ namespace CustomEffectLoader
                             if (propEffect.m_effect != null)
                             {
                                 propEffects.Add(propEffect);
+                                Debug.LogError($"Adding effect \"{effectName}\" for ${prefabName}");
                             }
                             else
                             {
@@ -408,7 +409,7 @@ namespace CustomEffectLoader
 
         private static string GetPrefabSaveName(string prefabName)
         {
-            var match = Regex.Match(prefabName, @"^.+?\.(.+)$");
+            var match = Regex.Match(prefabName, @"^.+\.(.+)$");
             return match.Success ? match.Groups[1].Value : prefabName;
         }
         #endregion

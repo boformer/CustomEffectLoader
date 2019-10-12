@@ -60,6 +60,7 @@
     <Compile Include="Mod.cs" />
     <Compile Include="ModSingleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkshopAssetUploadPanelPatch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
