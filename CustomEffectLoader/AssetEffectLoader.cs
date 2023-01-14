@@ -1,5 +1,6 @@
 ﻿using ColossalFramework.Packaging;
 using ColossalFramework.UI;
+using CustomEffectLoader.Patches;
 using ICities;
 using System;
 using System.Collections.Generic;
@@ -29,11 +30,22 @@ namespace CustomEffectLoader
        
     public class AssetEffectLoader : ModSingleton<AssetEffectLoader>
     {
+        {
+            public Vector4 blinkVector;
+
+            public CustomBlinkType(Vector4 blinkVector)
+            {
+                this.blinkVector = blinkVector;
+            }
+        }
+        
         public const string EffectsDefinitionFileName = "EffectsDefinition.xml";
 
         private GameObject _prefabCollection;
 
         private readonly List<EffectInfo> _effects = new List<EffectInfo>();
+
+        public static List<CustomBlinkType> customBlinkTypes = new List<CustomBlinkType>();
 
         private readonly List<string> _assetErrors = new List<string>();
 
@@ -86,6 +98,8 @@ namespace CustomEffectLoader
             _effects.Clear();
 
             _assetErrors.Clear();
+
+            customBlinkTypes.Clear();
 
             if (_prefabCollection != null)
             {
@@ -193,10 +207,35 @@ namespace CustomEffectLoader
                 return;
             }
 
-            LightEffect.BlinkType blinkType;
+            LightEffect.BlinkType blinkType = LightEffect.BlinkType.None;
             try
             {
-                blinkType = (LightEffect.BlinkType)Enum.Parse(typeof(LightEffect.BlinkType), effectDef.BlinkType ?? "None", true);
+                if(effectDef.BlinkType != null)
+                {
+                    if (effectDef.BlinkType.Contains(','))
+                    {
+                        string[] split = effectDef.BlinkType.Split(',');
+                        if(split.Length != 4)
+                        {
+                            _assetErrors.Add($"{package.packageName} - {effectDef.Name} - wrong number of blink vector components (x,y,z,w) \"${effectDef.BlinkType}\"");
+                            return;
+                        }
+
+                        Vector4 blinkVector = new Vector4()
+                        {
+                            x = float.Parse(split[0].Trim()),
+                            y = float.Parse(split[1].Trim()),
+                            z = float.Parse(split[2].Trim()),
+                            w = float.Parse(split[3].Trim())
+                        };
+                        customBlinkTypes.Add(new CustomBlinkType(blinkVector));
+                        blinkType = (LightEffect.BlinkType)(-customBlinkTypes.Count);
+                    } 
+                    else
+                    {
+                        blinkType = (LightEffect.BlinkType)Enum.Parse(typeof(LightEffect.BlinkType), effectDef.BlinkType ?? "None", true);
+                    }
+                }                
             }
             catch
             {

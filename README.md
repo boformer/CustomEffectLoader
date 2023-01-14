@@ -67,13 +67,57 @@ Property      | Usage
 `fadeStartDistance` | Distance in m where a non-batched light effect starts fading out. Usually around 300.
 `fadeEndDistance` | Distance in m where a non-batched light effect becomes completely invisible. Usually around 500. If you want to use a higher value, you need a mod like ULOD to increase the prop render distance.
 `offMin` / `offMax` | determine between which daylight levels the lights are turned off (night-only: 0.4/0.7, always on: 1000/1001)
-`blinkType` |  `None` / `Blink_050_050` / `MildFade_0125_0125` / `MediumFade_500_500` / `StrongBlaze_0125_0125` / `StrongFade_250_250` / `Blink_025_025`
+`blinkType` |  `None` / `Blink_050_050` / `MildFade_0125_0125` / `MediumFade_500_500` / `StrongBlaze_0125_0125` / `StrongFade_250_250` / `Blink_025_025` / custom blink vector, e.g. `0.5, 1.0, 1.5, 2.0`
 `rotationSpeed` | Non-batched `Spot` lights can be animated. Usual values for this would be between 10 and 50
-`rotationAxisX`/`…Y`/`…Z` | Rotation axis vector for the animation.
+`rotationAxisX`/`ï¿½Y`/`ï¿½Z` | Rotation axis vector for the animation.
 
 Inside of the `<VariationColors>` tag, you can add one or multiple `<Color>` tags to define the color variations of the effect. Many vanilla effects use some slight variations for more realism.
 
 A more complex example configuration can be found [here](https://gist.github.com/boformer/6cb54732245b14e214b26fe0b7d1530b)!
+
+Tweaking your light effects with ModTools while the game is running
+-------------------------------------------------------------------
+
+It is possible to tweak the blink vectors you have created while the game is running, using ModTools.
+
+Make sure to set `batchedLight="false"` while you are tweaking the light. Otherwise you have to re-place the prop every time to see the changes.
+
+1. Set up your prop and the EffectsDefinition.xml.
+2. Start the game and place your prop on the map
+3. Open the ModTools scene explorer with CTRL + E
+4. Expand AssetEffectLoader > EffectPrefabCollection > [Your Light Effect] in the left sidebar
+5. Select either the `LightEffect` or `UnityEngine.Light` and tweak the values (color, intensity, blink type etc.)
+6. Once you found the right values, copy them to your EffectsDefinition.xml
+
+![Mod Tools](media/mod_tools.png)
+
+
+Blinking Lights and Custom Blink Vectors
+----------------------------------------
+
+To create a blinking light, set `batchedLight="false"` and set `fadeStartDistance` and `fadeEndDistance` (built in effects seem to use `300` and `1000`).
+
+Then set `blinkType` to one of the built in blink types, or create your own blink vector using the format `x, y, z, w`:
+
+```
+blinkVector="0.5, 1.0, 1.5, 2.0"
+```
+
+The 4 values represent timings when the light starts turning off (`x`), when it is fully turned off (`y`), when it starts turning on (`z`) and when it is fully turned on again (`w`). `w` also determines the duration of the blinking, e.g. setting `w` smaller makes the blinking faster.
+
+![Custom Blink Vectors](media/blink_vectors.png)
+
+It is possible to tweak the blink vectors you have created while the game is running, using ModTools:
+
+1. Set up your prop and the EffectsDefinition.xml
+2. Start the game and place your prop on the map
+3. Open the ModTools scene explorer with CTRL + E
+4. Select AssetEffectLoader > CustomEffectLoader.AssetEffectLoader in the left sidebar
+5. Expand the `customBlinkTypes` list and find your blink type.
+6. Edit x, y, z, w while the game is unpaused
+7. Once you found the right values, copy them to your EffectsDefinition.xml
+
+![Custom Blink Vectors](media/blink_vectors2.png)
 
 Workshop Publishing
 ------------------
