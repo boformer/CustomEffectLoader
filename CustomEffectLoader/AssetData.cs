@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using ColossalFramework.Packaging;
 using ColossalFramework.UI;
-using Harmony;
+using HarmonyLib;
 using ICities;
 using UnityEngine;
 

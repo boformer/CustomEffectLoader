@@ -1,6 +1,6 @@
 ﻿using ColossalFramework.Packaging;
 using ColossalFramework.UI;
-using Harmony;
+using HarmonyLib;
 using ICities;
 using System;
 using System.Collections.Generic;
@@ -78,7 +78,7 @@ namespace CustomEffectLoader
         {
             Reset();
         }
-#endregion
+        #endregion
 
         private void Initialize()
         {
