@@ -1,60 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using ColossalFramework.Packaging;
-using ColossalFramework.UI;
-using HarmonyLib;
 using ICities;
 using UnityEngine;
 
 namespace CustomEffectLoader
 {
-    // Whole point of this logic is to strip custom effects from assets on save and reattach them on load.
-    // That way the asset remains compatible even when the mod is disabled!
-
-    // Saving in asset editor
-    [HarmonyPatch(typeof(SaveAssetPanel), "SaveRoutine")]
-    public static class SaveRoutinePatch
-    {
-        public static void Prefix(string mapName)
-        {
-            AssetData.OnPreSaveAsset(mapName);
-        }
-    }
-
-    // Loading in asset editor
-    [HarmonyPatch(typeof(LoadAssetPanel), "OnLoad")]
-    public static class OnLoadPatch
-    {
-        public static void Postfix(LoadAssetPanel __instance, UIListBox ___m_SaveList)
-        {
-            try
-            {
-                // Taken from LoadAssetPanel.OnLoad
-                var selectedIndex = ___m_SaveList.selectedIndex;
-                var getListingMetaDataMethod = typeof(LoadSavePanelBase<CustomAssetMetaData>).GetMethod(
-                    "GetListingMetaData", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-                var listingMetaData = (CustomAssetMetaData)getListingMetaDataMethod.Invoke(__instance, new object[] { selectedIndex });
-
-
-                // Taken from LoadingManager.LoadCustomContent
-                if (listingMetaData.userDataRef != null)
-                {
-                    AssetDataWrapper.UserAssetData userAssetData = listingMetaData.userDataRef.Instantiate() as AssetDataWrapper.UserAssetData;
-                    if (userAssetData == null)
-                    {
-                        userAssetData = new AssetDataWrapper.UserAssetData();
-                    }
-                    AssetData.OnAssetLoadedImpl(listingMetaData.name, ToolsModifierControl.toolController.m_editPrefabInfo, userAssetData.Data);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-            }
-        }
-    }
 
     public class AssetData : AssetDataExtensionBase
     {

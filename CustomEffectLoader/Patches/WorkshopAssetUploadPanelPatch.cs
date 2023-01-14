@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using ColossalFramework.Packaging;
 using HarmonyLib;
-using UnityEngine;
 
 namespace CustomEffectLoader
 {

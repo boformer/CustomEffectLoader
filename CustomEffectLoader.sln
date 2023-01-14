@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomEffectLoader", "CustomEffectLoader\CustomEffectLoader.csproj", "{14C465B8-D761-459A-BA95-2B6424B67556}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{EF739B85-0B9B-4345-AFC0-8EDDEBD89C70}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF739B85-0B9B-4345-AFC0-8EDDEBD89C70}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		README.md = README.md

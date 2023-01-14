@@ -1,6 +1,5 @@
 ﻿using ColossalFramework.Packaging;
 using ColossalFramework.UI;
-using HarmonyLib;
 using ICities;
 using System;
 using System.Collections.Generic;
@@ -11,15 +10,6 @@ using UnityEngine;
 
 namespace CustomEffectLoader
 {
-    [HarmonyPatch(typeof(LoadingManager), "MetaDataLoaded")]
-    public static class MetaDataLoadedPatch
-    {
-        public static void Postfix()
-        {
-            AssetEffectLoader.instance.OnPostMetaDataReady();
-        }
-    }
-
     public class AssetEffectLoading : LoadingExtensionBase
     {
         public override void OnLevelLoaded(LoadMode mode)
