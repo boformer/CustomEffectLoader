@@ -30,6 +30,7 @@ namespace CustomEffectLoader
        
     public class AssetEffectLoader : ModSingleton<AssetEffectLoader>
     {
+        public class CustomBlinkType
         {
             public Vector4 blinkVector;
 
